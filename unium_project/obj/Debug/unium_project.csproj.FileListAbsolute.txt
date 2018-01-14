@@ -1,0 +1,10 @@
+C:\Users\Rdnt\source\repos\unium_project\unium_project\bin\Debug\unium_project.exe.config
+C:\Users\Rdnt\source\repos\unium_project\unium_project\bin\Debug\unium_project.exe
+C:\Users\Rdnt\source\repos\unium_project\unium_project\bin\Debug\unium_project.pdb
+C:\Users\Rdnt\source\repos\unium_project\unium_project\obj\Debug\unium_project.csprojResolveAssemblyReference.cache
+C:\Users\Rdnt\source\repos\unium_project\unium_project\obj\Debug\unium_project.Form1.resources
+C:\Users\Rdnt\source\repos\unium_project\unium_project\obj\Debug\unium_project.Properties.Resources.resources
+C:\Users\Rdnt\source\repos\unium_project\unium_project\obj\Debug\unium_project.csproj.GenerateResource.Cache
+C:\Users\Rdnt\source\repos\unium_project\unium_project\obj\Debug\unium_project.csproj.CoreCompileInputs.cache
+C:\Users\Rdnt\source\repos\unium_project\unium_project\obj\Debug\unium_project.exe
+C:\Users\Rdnt\source\repos\unium_project\unium_project\obj\Debug\unium_project.pdb

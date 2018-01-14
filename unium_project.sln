@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "unium_project", "unium_project\unium_project.csproj", "{206C463F-0D47-4B92-839C-8990D7A8B1FD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{206C463F-0D47-4B92-839C-8990D7A8B1FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{206C463F-0D47-4B92-839C-8990D7A8B1FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{206C463F-0D47-4B92-839C-8990D7A8B1FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{206C463F-0D47-4B92-839C-8990D7A8B1FD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E17514CF-0B2E-4FC6-A7C4-86B10243CA68}
+	EndGlobalSection
+EndGlobal
