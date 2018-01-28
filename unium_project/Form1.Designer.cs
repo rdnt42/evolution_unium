@@ -33,9 +33,13 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.textBoxTest2 = new System.Windows.Forms.TextBox();
             this.btn_place = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.buttonNext = new System.Windows.Forms.Button();
             this.labelCell = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBarCells = new System.Windows.Forms.ProgressBar();
+            this.button3 = new System.Windows.Forms.Button();
+            this.labelFood = new System.Windows.Forms.Label();
+            this.progressBarFood = new System.Windows.Forms.ProgressBar();
+            this.progressBarLoad = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -74,7 +78,7 @@
             // 
             // btn_place
             // 
-            this.btn_place.Location = new System.Drawing.Point(614, 291);
+            this.btn_place.Location = new System.Drawing.Point(619, 291);
             this.btn_place.Name = "btn_place";
             this.btn_place.Size = new System.Drawing.Size(75, 23);
             this.btn_place.TabIndex = 4;
@@ -82,48 +86,92 @@
             this.btn_place.UseVisualStyleBackColor = true;
             this.btn_place.Click += new System.EventHandler(this.btn_place_Click);
             // 
-            // button2
+            // buttonNext
             // 
-            this.button2.Location = new System.Drawing.Point(727, 291);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "next";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.buttonNext.Location = new System.Drawing.Point(727, 291);
+            this.buttonNext.Name = "buttonNext";
+            this.buttonNext.Size = new System.Drawing.Size(75, 23);
+            this.buttonNext.TabIndex = 5;
+            this.buttonNext.Text = "next";
+            this.buttonNext.UseVisualStyleBackColor = true;
+            this.buttonNext.Click += new System.EventHandler(this.button2_Click);
             // 
             // labelCell
             // 
             this.labelCell.AutoSize = true;
-            this.labelCell.Location = new System.Drawing.Point(626, 331);
+            this.labelCell.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelCell.Location = new System.Drawing.Point(618, 451);
             this.labelCell.Name = "labelCell";
-            this.labelCell.Size = new System.Drawing.Size(35, 13);
+            this.labelCell.Size = new System.Drawing.Size(100, 24);
             this.labelCell.TabIndex = 6;
-            this.labelCell.Text = "label1";
+            this.labelCell.Text = "count cells";
             // 
-            // progressBar1
+            // progressBarCells
             // 
-            this.progressBar1.Location = new System.Drawing.Point(614, 361);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(246, 72);
-            this.progressBar1.Step = 1;
-            this.progressBar1.TabIndex = 7;
+            this.progressBarCells.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.progressBarCells.Location = new System.Drawing.Point(619, 478);
+            this.progressBarCells.Name = "progressBarCells";
+            this.progressBarCells.Size = new System.Drawing.Size(180, 30);
+            this.progressBarCells.Step = 1;
+            this.progressBarCells.TabIndex = 7;
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button3.Location = new System.Drawing.Point(619, 331);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(183, 36);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "clear";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // labelFood
+            // 
+            this.labelFood.AutoSize = true;
+            this.labelFood.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelFood.Location = new System.Drawing.Point(619, 523);
+            this.labelFood.Name = "labelFood";
+            this.labelFood.Size = new System.Drawing.Size(99, 24);
+            this.labelFood.TabIndex = 9;
+            this.labelFood.Text = "count food";
+            // 
+            // progressBarFood
+            // 
+            this.progressBarFood.Location = new System.Drawing.Point(619, 550);
+            this.progressBarFood.Name = "progressBarFood";
+            this.progressBarFood.Size = new System.Drawing.Size(180, 30);
+            this.progressBarFood.Step = 1;
+            this.progressBarFood.TabIndex = 10;
+            // 
+            // progressBarLoad
+            // 
+            this.progressBarLoad.Location = new System.Drawing.Point(619, 403);
+            this.progressBarLoad.Name = "progressBarLoad";
+            this.progressBarLoad.Size = new System.Drawing.Size(176, 23);
+            this.progressBarLoad.TabIndex = 11;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(896, 607);
-            this.Controls.Add(this.progressBar1);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(911, 599);
+            this.Controls.Add(this.progressBarLoad);
+            this.Controls.Add(this.progressBarFood);
+            this.Controls.Add(this.labelFood);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.progressBarCells);
             this.Controls.Add(this.labelCell);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.btn_place);
             this.Controls.Add(this.textBoxTest2);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.textBoxTest);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.Text = "Evolution";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -137,9 +185,13 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TextBox textBoxTest2;
         private System.Windows.Forms.Button btn_place;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Label labelCell;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar progressBarCells;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Label labelFood;
+        private System.Windows.Forms.ProgressBar progressBarFood;
+        private System.Windows.Forms.ProgressBar progressBarLoad;
     }
 }
 

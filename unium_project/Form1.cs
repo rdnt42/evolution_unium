@@ -14,14 +14,22 @@ namespace unium_project
     {
         public Form1()
         {
-            
+
             InitializeComponent();
-            
+
+        }
+        static class Constants
+        {
+            public const int pixPlace = 12;
+            public const int createSizeCell = 25;
+            public const int countObj = 2500; 
+
         }
 
         List<Group> Units = new List<Group>();
         List<Place> Terra = new List<Place>();
         List<Cell> Cells = new List<Cell>();
+        static Random rndLoc = new Random();
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -34,7 +42,7 @@ namespace unium_project
             //int setNumUnit = rnd.Next(10, 15);
             int[] setNumUnits = new int[setNumGroup];
 
-            for (int i = 0; i< setNumGroup; i++)
+            for (int i = 0; i < setNumGroup; i++)
             {
                 Group.quantity++;
                 setNumUnits[i] = rnd.Next(10, 15);
@@ -43,11 +51,11 @@ namespace unium_project
                     Group.id++;
                     Group unit = new Group();
                     Units.Add(unit);
-                }   
+                }
             }
             textBoxTest.Text = Group.id.ToString();
             textBoxTest2.Text = Units.Count.ToString();
-            
+
             DataTable dt = new DataTable();
             dt.Columns.Add("Team");
             dt.Columns.Add("Units");
@@ -62,15 +70,17 @@ namespace unium_project
             }
 
             dataGridView1.DataSource = dt;
-            
-    
+
+
 
         }
 
         private void btn_place_Click(object sender, EventArgs e)
         {
+
             Place.countPlace = 0;
-            while (Place.countPlace < 2500)
+            progressBarLoad.Maximum = Constants.countObj;
+            while (Place.countPlace < Constants.countObj)
             {
                 Place place = new Place();
                 switch (place.element)
@@ -94,85 +104,125 @@ namespace unium_project
                         place.BackColor = Color.Blue;
                         break;
                     case 'E':
-                        place.BackColor = Color.White;
+                        place.BackColor = Color.LightBlue;
                         break;
                 }
-                place.Location = new Point(place.x*12, place.y * 12);
-                place.Size = new Size(12, 12);
+                place.Location = new Point(place.x * Constants.pixPlace, place.y * Constants.pixPlace);
+                place.Size = new Size(Constants.pixPlace, Constants.pixPlace);
                 Place.countPlace++;
                 this.Controls.Add(place);
                 Terra.Add(place);
-               
+                progressBarLoad.Value++;
+
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Cell.countCell = 0;
-            for (int i =0;i<100;i++)
-            {
-                Cell c = new Cell();
-                Cell.countCell ++;
-                Cells.Add(c);
-            }
 
             Cell.countCell = 0;
-            Place.countPlace = 0;
-            foreach (var v in Cells)
+            int hydrohen = 0;
+            int carbon = 0;
+            int nytrogen = 0;
+            int oxygen = 0;
+            foreach (var t in Terra)
             {
-               
-                for(int i =0;i<25;i++) {
-
-                    switch (Terra[Place.countPlace].element)
+                //////////////////////////////////////////CREATE CELLS//////////////////////////////////////////
+                if (t.idPlace % Constants.createSizeCell == 0)
+                {
+                    if (carbon >= 3 && oxygen >= 2 && hydrohen >= 3)
                     {
-                        case 'H':
-                            v.hydrohen++;
+                        Cell c = new Cell();
+                        Cell.countCell++;
+                        Cells.Add(c);
+                        c.BackColor = Color.Indigo;
 
-                            break;
-                        case 'C':
-                            v.carbon++;
-                            break;
-                        case 'N':
-                            v.nytrogen++;
-                            break;
-                        case 'S':
+                        c.Location = new Point((t.x + rndLoc.Next(0, 2)) * Constants.pixPlace, (t.y + rndLoc.Next(0, 2)) * Constants.pixPlace); //in center 5x5
+                        c.Size = new Size(Constants.pixPlace*3, Constants.pixPlace*3);
 
-                            break;
-                        case 'P':
+                        this.Controls.Add(c);
+                        c.BringToFront();
 
-                            break;
-                        case 'O':
-                            v.oxygen++;
-
-                            break;
-                        case 'E':
-
-                            break;
+                        progressBarCells.Value++;
+                        labelCell.Text ="count cells " + progressBarCells.Value.ToString();
                     }
 
-                    Terra[Place.countPlace].element = 'E';
-                    Terra[Place.countPlace].BackColor = Color.White;
+                    else if (carbon >= 1 && oxygen >= 2 && hydrohen >= 3 && nytrogen >=2)
+                    {
+                        Cell c = new Cell();
+                        Cell.countCell++;
+                        Cells.Add(c);
+                        c.BackColor = Color.Green;
 
-                    Place.countPlace++;
+                        c.Location = new Point((t.x + rndLoc.Next(0, 2)) * Constants.pixPlace, (t.y + rndLoc.Next(0, 2)) * Constants.pixPlace); //in center 5x5
+                        c.Size = new Size(Constants.pixPlace*3, Constants.pixPlace*3);
+
+                        this.Controls.Add(c);
+                        c.BringToFront();
+
+                         progressBarFood.Value++;
+                         labelFood.Text = "cout food "+ progressBarFood.Value.ToString();
+
+                    }
+
+                    hydrohen = 0;
+                    carbon = 0;
+                    nytrogen = 0;
+                    oxygen = 0;
                 }
 
-                if (v.carbon>=3 && v.oxygen >= 2 && v.hydrohen >= 3)
+                switch (t.element)
                 {
-                    v.BackColor = Color.Crimson;
-                    v.Location = new Point(Terra[Place.countPlace-18].x*12, Terra[Place.countPlace - 18].y*12 );
-                    v.Size = new Size(36, 36);
-                    
-                    this.Controls.Add(v);
-                    v.BringToFront();
+                    case 'H':
+                        hydrohen++;
 
-                    progressBar1.Value++;
-                    labelCell.Text = progressBar1.Value.ToString();
+                        break;
+                    case 'C':
+                        carbon++;
+                        break;
+                    case 'N':
+                        nytrogen++;
+                        break;
+                    case 'S':
+
+                        break;
+                    case 'P':
+
+                        break;
+                    case 'O':
+                        oxygen++;
+
+                        break;
+                    case 'E':
+
+                        break;
                 }
+
+                t.element = 'E';
+                t.BackColor = Color.LightBlue;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            foreach (var t in Terra)
+            {
+                t.Dispose();
             }
 
+            Terra.Clear();
 
+            foreach (var c in Cells)
+            {
+                c.Dispose();
+            }
 
-
+            Cells.Clear();
+            progressBarCells.Value = 0;
+            labelCell.Text = "count cells";
+            progressBarFood.Value = 0;
+            labelFood.Text = "count food";
+            progressBarLoad.Value = 0;
         }
     }
 }

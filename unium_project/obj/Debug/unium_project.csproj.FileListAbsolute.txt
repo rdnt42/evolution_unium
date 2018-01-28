@@ -28,3 +28,13 @@ G:\evolution_unium\unium_project\obj\Debug\unium_project.pdb
 G:\evolution_unium\unium_project\bin\Debug\unium_project.exe.config
 G:\evolution_unium\unium_project\bin\Debug\unium_project.exe
 G:\evolution_unium\unium_project\bin\Debug\unium_project.pdb
+W:\!git\evolution_unium\unium_project\bin\Debug\unium_project.exe.config
+W:\!git\evolution_unium\unium_project\bin\Debug\unium_project.exe
+W:\!git\evolution_unium\unium_project\bin\Debug\unium_project.pdb
+W:\!git\evolution_unium\unium_project\obj\Debug\unium_project.csprojResolveAssemblyReference.cache
+W:\!git\evolution_unium\unium_project\obj\Debug\unium_project.Form1.resources
+W:\!git\evolution_unium\unium_project\obj\Debug\unium_project.Properties.Resources.resources
+W:\!git\evolution_unium\unium_project\obj\Debug\unium_project.csproj.GenerateResource.Cache
+W:\!git\evolution_unium\unium_project\obj\Debug\unium_project.csproj.CoreCompileInputs.cache
+W:\!git\evolution_unium\unium_project\obj\Debug\unium_project.exe
+W:\!git\evolution_unium\unium_project\obj\Debug\unium_project.pdb
