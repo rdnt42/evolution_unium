@@ -57,6 +57,9 @@
     <Compile Include="group.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Item.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Place.cs">
       <SubType>Component</SubType>
     </Compile>

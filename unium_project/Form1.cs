@@ -22,58 +22,24 @@ namespace unium_project
         {
             public const int pixPlace = 12;
             public const int createSizeCell = 25;
-            public const int countObj = 2500; 
+            public const int countObj = 2500;
 
         }
 
         List<Group> Units = new List<Group>();
         List<Place> Terra = new List<Place>();
         List<Cell> Cells = new List<Cell>();
+        List<Item> Items = new List<Item>();
         static Random rndLoc = new Random();
+        DataTable dt = new DataTable();
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
-            Units.Clear();
-            Group.id = 0;
-            Group.quantity = 0;
-            Random rnd = new Random();
-
-            int setNumGroup = rnd.Next(3, 6);
-            //int setNumUnit = rnd.Next(10, 15);
-            int[] setNumUnits = new int[setNumGroup];
-
-            for (int i = 0; i < setNumGroup; i++)
-            {
-                Group.quantity++;
-                setNumUnits[i] = rnd.Next(10, 15);
-                for (int j = 0; j < setNumUnits[i]; j++)
-                {
-                    Group.id++;
-                    Group unit = new Group();
-                    Units.Add(unit);
-                }
-            }
-            textBoxTest.Text = Group.id.ToString();
-            textBoxTest2.Text = Units.Count.ToString();
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Team");
-            dt.Columns.Add("Units");
-
-            for (int i = 0; i < setNumGroup; i++)
-            {
-                DataRow r = dt.NewRow();
-                int j = i;
-                r["Team"] = ++j;
-                r["Units"] = setNumUnits[i];
-                dt.Rows.Add(r);
-            }
-
-            dataGridView1.DataSource = dt;
-
-
-
+            dt.Columns.Add("Id");
+            dt.Columns.Add("Group");
+            dt.Columns.Add("HP");
         }
+
 
         private void btn_place_Click(object sender, EventArgs e)
         {
@@ -132,36 +98,59 @@ namespace unium_project
                 {
                     if (carbon >= 3 && oxygen >= 2 && hydrohen >= 3)
                     {
-                        Cell c = new Cell();
+                        Cell c = new Cell(carbon);
                         Cell.countCell++;
                         Cells.Add(c);
-                        c.BackColor = Color.Indigo;
+                       // c.BackColor = Color.Indigo;
 
                         c.Location = new Point((t.x + rndLoc.Next(0, 2)) * Constants.pixPlace, (t.y + rndLoc.Next(0, 2)) * Constants.pixPlace); //in center 5x5
-                        c.Size = new Size(Constants.pixPlace*3, Constants.pixPlace*3);
+                        
+                        c.SizeMode = PictureBoxSizeMode.StretchImage;
 
+                        //Bitmap image = new Bitmap("W://!git//evolution_unium//Cell.png");
+                        
+                        //c.SizeMode = PictureBoxSizeMode.StretchImage;
+                        //c.Size = new Size(Constants.pixPlace * 3, Constants.pixPlace * 3);
+                        //c.BackColor = Color.Transparent;
+                       // c.Image = image;
+
+
+                        System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
+                        path.AddEllipse(0, 0, Constants.pixPlace * 3, Constants.pixPlace * 3);
+                        Region rgn = new Region(path);
+                        c.Region = rgn;
+                        c.BackColor = Color.Indigo;
                         this.Controls.Add(c);
                         c.BringToFront();
 
                         progressBarCells.Value++;
-                        labelCell.Text ="count cells " + progressBarCells.Value.ToString();
+                        labelCell.Text = "count cells " + progressBarCells.Value.ToString();
+
+                        DataRow r = dt.NewRow();
+                        r["Id"] = c.idCell;
+                        r["Group"] =c.group;
+                        r["HP"] = c.hp;
+                        dt.Rows.Add(r);
+
+
+                        dataGridView1.DataSource = dt;
                     }
 
-                    else if (carbon >= 1 && oxygen >= 2 && hydrohen >= 3 && nytrogen >=2)
+                    else if (carbon >= 1 && oxygen >= 2 && hydrohen >= 3 && nytrogen >= 2)
                     {
-                        Cell c = new Cell();
-                        Cell.countCell++;
-                        Cells.Add(c);
-                        c.BackColor = Color.Green;
+                        Item i = new Item();
+                        //Cell.countCell++;
+                        Items.Add(i);
+                        i.BackColor = Color.Green;
 
-                        c.Location = new Point((t.x + rndLoc.Next(0, 2)) * Constants.pixPlace, (t.y + rndLoc.Next(0, 2)) * Constants.pixPlace); //in center 5x5
-                        c.Size = new Size(Constants.pixPlace*3, Constants.pixPlace*3);
+                        i.Location = new Point((t.x + rndLoc.Next(0, 2)) * Constants.pixPlace, (t.y + rndLoc.Next(0, 2)) * Constants.pixPlace); //in center 5x5
+                        i.Size = new Size(Constants.pixPlace * 3, Constants.pixPlace * 3);
 
-                        this.Controls.Add(c);
-                        c.BringToFront();
+                        this.Controls.Add(i);
+                        i.BringToFront();
 
-                         progressBarFood.Value++;
-                         labelFood.Text = "cout food "+ progressBarFood.Value.ToString();
+                        progressBarFood.Value++;
+                        labelFood.Text = "cout food " + progressBarFood.Value.ToString();
 
                     }
 
@@ -169,6 +158,7 @@ namespace unium_project
                     carbon = 0;
                     nytrogen = 0;
                     oxygen = 0;
+
                 }
 
                 switch (t.element)
@@ -218,11 +208,78 @@ namespace unium_project
             }
 
             Cells.Clear();
+
+            foreach (var i in Items)
+            {
+                i.Dispose();
+            }
+
+            Items.Clear();
+
             progressBarCells.Value = 0;
             labelCell.Text = "count cells";
             progressBarFood.Value = 0;
             labelFood.Text = "count food";
             progressBarLoad.Value = 0;
+            dt.Rows.Clear();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            Units.Clear();
+
+            Group.id = 0;
+            Group.quantity = 0;
+            Random rnd = new Random();
+
+            int setNumGroup = rnd.Next(3, 6);
+            //int setNumUnit = rnd.Next(10, 15);
+            int[] setNumUnits = new int[setNumGroup];
+
+            for (int i = 0; i < setNumGroup; i++)
+            {
+                Group.quantity++;
+                setNumUnits[i] = rnd.Next(10, 15);
+                for (int j = 0; j < setNumUnits[i]; j++)
+                {
+                    Group.id++;
+                    Group unit = new Group();
+                    Units.Add(unit);
+                }
+            }
+            // textBoxTest.Text = Group.id.ToString();
+            // textBoxTest2.Text = Units.Count.ToString();
+
+
+
+            /*  dt.Rows.Clear();
+              for (int i = 0; i < setNumGroup; i++)
+              {
+                  DataRow r = dt.NewRow();
+                  int j = i;
+                  r["Team"] = ++j;
+                  r["Units"] = setNumUnits[i];
+                  dt.Rows.Add(r);
+              }
+
+              dataGridView1.DataSource = dt;*/
+
+        }
+
+      
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            foreach (var v in Cells)
+            {
+                v.Location = new Point(v.Location.X+10, v.Location.Y+10); //in center 5x5
+
+
+            }
         }
     }
 }
