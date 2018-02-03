@@ -39,7 +39,7 @@
             this.progressBarLoad = new System.Windows.Forms.ProgressBar();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.button1 = new System.Windows.Forms.Button();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timerTurn = new System.Windows.Forms.Timer(this.components);
             this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -138,10 +138,9 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // timer1
+            // timerTurn
             // 
-            this.timer1.Interval = 20;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.timerTurn.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // button2
             // 
@@ -191,7 +190,7 @@
         private System.Windows.Forms.ProgressBar progressBarLoad;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timerTurn;
         private System.Windows.Forms.Button button2;
     }
 }
