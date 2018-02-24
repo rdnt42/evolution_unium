@@ -15,6 +15,7 @@ namespace unium_project
         public char element;
         public int x;
         public int y;
+        public int aging;
         static Random rnd = new Random();
         public Place()
         {
@@ -65,6 +66,7 @@ namespace unium_project
                     element = 'E';
                     break;
             }
+            aging = 1;
         }
 
     }

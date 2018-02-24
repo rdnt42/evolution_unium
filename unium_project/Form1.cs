@@ -28,6 +28,9 @@ namespace unium_project
 
         List<Group> Units = new List<Group>();
         List<Place> Terra = new List<Place>();
+        List<Place> Elements = new List<Place>();
+
+
         List<Cell> Cells = new List<Cell>();
         List<Item> Items = new List<Item>();
         static Random rnd = new Random();
@@ -94,25 +97,25 @@ namespace unium_project
             foreach (var t in Terra)
             {
                 //////////////////////////////////////////CREATE CELLS//////////////////////////////////////////
-                if (t.idPlace % Constants.createSizeCell == 0)
+                if ((t.idPlace) % Constants.createSizeCell == 0)
                 {
                     if (carbon >= 3 && oxygen >= 2 && hydrohen >= 3)
                     {
                         Cell c = new Cell(carbon);
                         Cell.countCell++;
                         Cells.Add(c);
-                       // c.BackColor = Color.Indigo;
+                        // c.BackColor = Color.Indigo;
 
                         c.Location = new Point((t.x + rnd.Next(0, 2)) * Constants.pixPlace, (t.y + rnd.Next(0, 2)) * Constants.pixPlace); //in center 5x5
-                        
+
                         c.SizeMode = PictureBoxSizeMode.StretchImage;
 
                         //Bitmap image = new Bitmap("W://!git//evolution_unium//Cell.png");
-                        
+
                         //c.SizeMode = PictureBoxSizeMode.StretchImage;
                         //c.Size = new Size(Constants.pixPlace * 3, Constants.pixPlace * 3);
                         //c.BackColor = Color.Transparent;
-                       // c.Image = image;
+                        // c.Image = image;
 
 
                         System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
@@ -128,7 +131,7 @@ namespace unium_project
 
                         DataRow r = dt.NewRow();
                         r["Id"] = c.idCell;
-                        r["Group"] =c.group;
+                        r["Group"] = c.group;
                         r["HP"] = c.hp;
                         dt.Rows.Add(r);
 
@@ -200,6 +203,7 @@ namespace unium_project
 
         private void button3_Click(object sender, EventArgs e)
         {
+            timerTurn.Enabled = false;
             foreach (var t in Terra)
             {
                 t.Dispose();
@@ -284,17 +288,28 @@ namespace unium_project
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            for (int i = 0; i < rnd.Next(1, 5);i++) {
-                int rndElement = rnd.Next(0, 2500);
+
+            for (int i = 0; i < rnd.Next(1, 5); i++)
+            {
+                int rndElement = rnd.Next(0, 2499);
                 if (Terra[rndElement].element == 'E')
                 {
                     CreateElement(rndElement);
                     CreateCell(rndElement);
                 }
             }
+
+            checkAge();
+
+            foreach (var c in Cells)
+            {
+                c.Moving(rnd.Next(-2,2), rnd.Next(-2, 2));
+            }
+
+
         }
 
-        void CreateElement (int setRndElement)
+        void CreateElement(int setRndElement)
         {
             int setElement = rnd.Next(0, 5);
 
@@ -326,6 +341,8 @@ namespace unium_project
                     break;
 
             }
+
+            Elements.Add(Terra[setRndElement]);
         }
 
         void CreateCell(int setRndElement)
@@ -335,7 +352,7 @@ namespace unium_project
             int carbon = 0;
             int nytrogen = 0;
             int oxygen = 0;
-            for (int i = 0; i<25; i++)
+            for (int i = 0; i < 25; i++)
             {
                 switch (Terra[numArr].element)
                 {
@@ -363,27 +380,24 @@ namespace unium_project
                     default:
                         break;
                 }
+
                 numArr++;
 
             }
 
-            if (carbon >= 3 && oxygen >= 2 && hydrohen >= 3)
+
+
+            if (carbon >= 2 && oxygen >= 1 && hydrohen >= 1)
             {
+
                 Cell c = new Cell(carbon);
                 Cell.countCell++;
                 Cells.Add(c);
-                // c.BackColor = Color.Indigo;
+
 
                 c.Location = new Point((Terra[numArr].x + rnd.Next(0, 2)) * Constants.pixPlace, (Terra[numArr].y + rnd.Next(0, 2)) * Constants.pixPlace); //in center 5x5
 
                 c.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                //Bitmap image = new Bitmap("W://!git//evolution_unium//Cell.png");
-
-                //c.SizeMode = PictureBoxSizeMode.StretchImage;
-                //c.Size = new Size(Constants.pixPlace * 3, Constants.pixPlace * 3);
-                //c.BackColor = Color.Transparent;
-                // c.Image = image;
 
 
                 System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
@@ -405,9 +419,20 @@ namespace unium_project
 
 
                 dataGridView1.DataSource = dt;
+
+                for (int k = 0; k < 25; k++)
+                {
+                    if (Terra[numArr].element != 'E')
+                    {
+                        Terra[numArr].element = 'E';
+                        Terra[numArr].BackColor = Color.LightBlue;
+                        //Elements.Remove(Terra[numArr]);
+                    }
+                    numArr--;
+                }
             }
 
-            else if (carbon >= 1 && oxygen >= 2 && hydrohen >= 3 && nytrogen >= 2)
+            else if (carbon >= 1 && hydrohen >= 1 && nytrogen >= 2)
             {
                 Item i = new Item();
                 //Cell.countCell++;
@@ -422,13 +447,62 @@ namespace unium_project
 
                 progressBarFood.Value++;
                 labelFood.Text = "cout food " + progressBarFood.Value.ToString();
+                for (int k = 0; k < 25; k++)
+                {
+                    if (Terra[numArr].element != 'E')
+                    {
+                        Terra[numArr].element = 'E';
+                        Terra[numArr].BackColor = Color.LightBlue;
+                        //Elements.Remove(Terra[numArr]);
+                    }
+                    numArr--;
+                }
 
             }
-
-
-
-
         }
+
+        private static bool FoundEmpty(Place status) //предикат для работы с RemoveAll
+        {
+            if (status.element == 'E')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+        void checkAge()
+        {
+            label2.Text = Elements.Count.ToString();
+
+            foreach (var e in Elements)
+            {
+                e.aging++;
+                if (e.aging > 50)
+                {
+                    e.element = 'E';
+                    e.BackColor = Color.LightBlue;
+                    e.aging = 0;
+                }
+            }
+
+            Elements.RemoveAll(FoundEmpty);
+ 
+
+            int empt = 0;
+            foreach (var e in Elements)
+            {
+                if (e.element == 'E')
+                {
+                    empt++;
+                }
+            }
+            label3.Text = empt.ToString();
+        }
+
         
     }
 }

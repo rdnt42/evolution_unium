@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace unium_project
 {
@@ -14,6 +15,7 @@ namespace unium_project
         public int group;
         public int hp;
         public int maxHp;
+        
 
         public Cell()
         {
@@ -30,6 +32,12 @@ namespace unium_project
 
             switch (carbon)
             {
+                case 1:
+                    maxHp = 150;
+                    break;
+                case 2:
+                    maxHp = 150;
+                    break;
                 case 3:
                     maxHp = 150;
                     break;
@@ -54,6 +62,13 @@ namespace unium_project
             hp = maxHp;
         }
 
+        public void Moving (int directionX, int directionY)
+        {
+            // if ((Location.Y + 20 < this.ClientSize.Height) && (Location.Y - 20 > 0 ))
+            // Location = new Point(Location.X + 5*(random.Next(-2,2)), Location.Y + 5* (random.Next(-2, 2)));
+            Location = new Point(Location.X + 5 * directionX, Location.Y + 5 * directionY);
+        }
+        //(rnd.Next(-1,1))
 
 
     }
