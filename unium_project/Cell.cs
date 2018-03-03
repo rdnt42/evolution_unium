@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
+
 namespace unium_project
 {
     class Cell : PictureBox
@@ -15,7 +16,7 @@ namespace unium_project
         public int group;
         public int hp;
         public int maxHp;
-        
+        static Random rnd = new Random();
 
         public Cell()
         {
@@ -62,14 +63,50 @@ namespace unium_project
             hp = maxHp;
         }
 
-        public void Moving (int directionX, int directionY)
+        public void Moving(int directionX, int directionY)
         {
-            // if ((Location.Y + 20 < this.ClientSize.Height) && (Location.Y - 20 > 0 ))
-            // Location = new Point(Location.X + 5*(random.Next(-2,2)), Location.Y + 5* (random.Next(-2, 2)));
-            Location = new Point(Location.X + 5 * directionX, Location.Y + 5 * directionY);
-        }
-        //(rnd.Next(-1,1))
 
+            Location = new Point(Location.X + directionX, Location.Y + directionY);
+        }
+
+        public void Search(List<Item> Items, int pixPlace)
+        {
+
+            bool isFood = false;
+
+            foreach (Item i in Items)
+            {
+                double h = Location.X - i.Location.X;
+                double w = Location.Y - i.Location.Y;
+                if (Math.Pow(h, 2) + Math.Pow(w, 2) <= Math.Pow(100, 2))
+                {
+                    int deltaX = i.Location.X - Location.X;
+                    if (deltaX!=0)
+                    deltaX = deltaX / deltaX;
+
+                    int deltaY = i.Location.Y - Location.Y;
+                    if (deltaY != 0)
+                        deltaY = deltaY / deltaY;
+                    Location = new Point(Location.X + deltaX*10, Location.Y + deltaY*10);
+                    isFood = true;
+                    break;
+                }
+            }
+
+            if (!isFood) {
+                int x = rnd.Next(-1, 2);
+                int y = rnd.Next(-1, 2);
+                if (Location.Y < (pixPlace * 50 - 35 - y * 10) && Location.Y > -y * 10
+                    && Location.X < (pixPlace * 50 - 35 - x * 10) && Location.X > -x * 10)
+                {
+                    Location = new Point(Location.X + x*10, Location.Y + y*10);
+                }
+
+                }
+
+
+
+        }
 
     }
 }

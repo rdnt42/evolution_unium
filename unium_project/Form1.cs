@@ -18,7 +18,7 @@ namespace unium_project
             InitializeComponent();
 
         }
-        static class Constants
+        public static class Constants
         {
             public const int pixPlace = 12;
             public const int createSizeCell = 25;
@@ -41,7 +41,12 @@ namespace unium_project
             dt.Columns.Add("Id");
             dt.Columns.Add("Group");
             dt.Columns.Add("HP");
+            dt.Columns.Add("Color");
+
+
         }
+
+
 
 
         private void btn_place_Click(object sender, EventArgs e)
@@ -99,30 +104,51 @@ namespace unium_project
                 //////////////////////////////////////////CREATE CELLS//////////////////////////////////////////
                 if ((t.idPlace) % Constants.createSizeCell == 0)
                 {
-                    if (carbon >= 3 && oxygen >= 2 && hydrohen >= 3)
+                    
+                    if (carbon >= 3 && oxygen >= 3 && hydrohen >= 4)
                     {
                         Cell c = new Cell(carbon);
                         Cell.countCell++;
                         Cells.Add(c);
-                        // c.BackColor = Color.Indigo;
 
-                        c.Location = new Point((t.x + rnd.Next(0, 2)) * Constants.pixPlace, (t.y + rnd.Next(0, 2)) * Constants.pixPlace); //in center 5x5
+
+                        c.Location = new Point((t.x + rnd.Next(0, 3)) * Constants.pixPlace, (t.y + rnd.Next(0, 3)) * Constants.pixPlace); //in center 5x5
 
                         c.SizeMode = PictureBoxSizeMode.StretchImage;
-
-                        //Bitmap image = new Bitmap("W://!git//evolution_unium//Cell.png");
-
-                        //c.SizeMode = PictureBoxSizeMode.StretchImage;
-                        //c.Size = new Size(Constants.pixPlace * 3, Constants.pixPlace * 3);
-                        //c.BackColor = Color.Transparent;
-                        // c.Image = image;
-
 
                         System.Drawing.Drawing2D.GraphicsPath path = new System.Drawing.Drawing2D.GraphicsPath();
                         path.AddEllipse(0, 0, Constants.pixPlace * 3, Constants.pixPlace * 3);
                         Region rgn = new Region(path);
                         c.Region = rgn;
-                        c.BackColor = Color.Indigo;
+                        switch (c.group)
+                        {
+                            case 1:
+                                c.BackColor = Color.WhiteSmoke;
+                                break;
+                            case 2:
+                                c.BackColor = Color.Yellow;
+                                break;
+                            case 3:
+                                c.BackColor = Color.GreenYellow;
+                                break;
+
+                            case 4:
+                                c.BackColor = Color.LawnGreen;
+                                break;
+
+                            case 5:
+                                c.BackColor = Color.DarkGreen;
+                                break;
+
+                            case 6:
+                                c.BackColor = Color.Indigo; ;
+                                break;
+
+                            default:
+                                c.BackColor = Color.HotPink;
+                                break;
+                        }
+                        
                         this.Controls.Add(c);
                         c.BringToFront();
 
@@ -133,27 +159,29 @@ namespace unium_project
                         r["Id"] = c.idCell;
                         r["Group"] = c.group;
                         r["HP"] = c.hp;
+                        r["Color"] = c.BackColor;
+                        
                         dt.Rows.Add(r);
 
 
                         dataGridView1.DataSource = dt;
                     }
 
-                    else if (carbon >= 1 && oxygen >= 2 && hydrohen >= 3 && nytrogen >= 2)
+                    else if (carbon >= 1 && oxygen >= 3 && hydrohen >= 3 && nytrogen >= 2)
                     {
                         Item i = new Item();
                         //Cell.countCell++;
                         Items.Add(i);
-                        i.BackColor = Color.Green;
+                        i.BackColor = Color.OrangeRed;
 
-                        i.Location = new Point((t.x + rnd.Next(0, 2)) * Constants.pixPlace, (t.y + rnd.Next(0, 2)) * Constants.pixPlace); //in center 5x5
+                        i.Location = new Point((t.x + rnd.Next(0, 3)) * Constants.pixPlace, (t.y + rnd.Next(0, 3)) * Constants.pixPlace); //in center 5x5
                         i.Size = new Size(Constants.pixPlace * 3, Constants.pixPlace * 3);
 
                         this.Controls.Add(i);
                         i.BringToFront();
 
                         progressBarFood.Value++;
-                        labelFood.Text = "cout food " + progressBarFood.Value.ToString();
+                        labelFood.Text = "count food " + progressBarFood.Value.ToString();
 
                     }
 
@@ -241,14 +269,14 @@ namespace unium_project
             Group.quantity = 0;
             Random rnd = new Random();
 
-            int setNumGroup = rnd.Next(3, 6);
+            int setNumGroup = rnd.Next(3, 7);
             //int setNumUnit = rnd.Next(10, 15);
             int[] setNumUnits = new int[setNumGroup];
 
             for (int i = 0; i < setNumGroup; i++)
             {
                 Group.quantity++;
-                setNumUnits[i] = rnd.Next(10, 15);
+                setNumUnits[i] = rnd.Next(10, 16);
                 for (int j = 0; j < setNumUnits[i]; j++)
                 {
                     Group.id++;
@@ -285,17 +313,30 @@ namespace unium_project
         }
 
 
-
+/// <summary>
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// /////////////////////////////////////////T U R N///////////////////////////////////////////////////////////
+/// </summary>
+/// <param name="sender"></param>
+/// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
 
-            for (int i = 0; i < rnd.Next(1, 5); i++)
+            for (int i = 0; i < rnd.Next(1, 6); i++)
             {
-                int rndElement = rnd.Next(0, 2499);
+                int rndElement = rnd.Next(0, 2500);
                 if (Terra[rndElement].element == 'E')
                 {
                     CreateElement(rndElement);
-                    CreateCell(rndElement);
+                    try
+                    {
+                        CreateCell(rndElement);
+                    }
+                    catch
+                    {
+                        textBoxErr.Text = rndElement.ToString();
+                    }
                 }
             }
 
@@ -303,7 +344,9 @@ namespace unium_project
 
             foreach (var c in Cells)
             {
-                c.Moving(rnd.Next(-2,2), rnd.Next(-2, 2));
+
+                c.Search(Items, Constants.pixPlace);
+                   // c.Moving(x*10, y*10);
             }
 
 
@@ -311,7 +354,7 @@ namespace unium_project
 
         void CreateElement(int setRndElement)
         {
-            int setElement = rnd.Next(0, 5);
+            int setElement = rnd.Next(0, 6);
 
             switch (setElement)
             {
@@ -339,11 +382,12 @@ namespace unium_project
                     Terra[setRndElement].element = 'P';
                     Terra[setRndElement].BackColor = Color.Black;
                     break;
-
             }
 
             Elements.Add(Terra[setRndElement]);
         }
+
+
 
         void CreateCell(int setRndElement)
         {
@@ -387,7 +431,7 @@ namespace unium_project
 
 
 
-            if (carbon >= 2 && oxygen >= 1 && hydrohen >= 1)
+            if (carbon >= 3 && oxygen >= 1 && hydrohen >= 1)
             {
 
                 Cell c = new Cell(carbon);
@@ -395,7 +439,7 @@ namespace unium_project
                 Cells.Add(c);
 
 
-                c.Location = new Point((Terra[numArr].x + rnd.Next(0, 2)) * Constants.pixPlace, (Terra[numArr].y + rnd.Next(0, 2)) * Constants.pixPlace); //in center 5x5
+                c.Location = new Point((Terra[numArr].x + rnd.Next(0, 3)) * Constants.pixPlace, (Terra[numArr].y + rnd.Next(0, 3)) * Constants.pixPlace); //in center 5x5
 
                 c.SizeMode = PictureBoxSizeMode.StretchImage;
 
@@ -404,7 +448,34 @@ namespace unium_project
                 path.AddEllipse(0, 0, Constants.pixPlace * 3, Constants.pixPlace * 3);
                 Region rgn = new Region(path);
                 c.Region = rgn;
-                c.BackColor = Color.Indigo;
+                switch (c.group)
+                {
+                    case 1:
+                        c.BackColor = Color.WhiteSmoke;
+                        break;
+                    case 2:
+                        c.BackColor = Color.Yellow;
+                        break;
+                    case 3:
+                        c.BackColor = Color.GreenYellow;
+                        break;
+
+                    case 4:
+                        c.BackColor = Color.Green;
+                        break;
+
+                    case 5:
+                        c.BackColor = Color.DarkGreen;
+                        break;
+
+                    case 6:
+                        c.BackColor = Color.Indigo; ;
+                        break;
+
+                    default:
+                        c.BackColor = Color.HotPink;
+                        break;
+                }
                 this.Controls.Add(c);
                 c.BringToFront();
 
@@ -415,10 +486,16 @@ namespace unium_project
                 r["Id"] = c.idCell;
                 r["Group"] = c.group;
                 r["HP"] = c.hp;
+                r["Color"] = c.BackColor;
                 dt.Rows.Add(r);
+                // dataGridView1.AutoResizeRows();
+                // dataGridView1.AutoResizeColumns();
 
-
+                dataGridView1.Columns[0].Width = 100;
                 dataGridView1.DataSource = dt;
+                
+
+
 
                 for (int k = 0; k < 25; k++)
                 {
@@ -432,14 +509,14 @@ namespace unium_project
                 }
             }
 
-            else if (carbon >= 1 && hydrohen >= 1 && nytrogen >= 2)
+            else if (carbon >= 1 && hydrohen >= 2 && nytrogen >= 2)
             {
                 Item i = new Item();
                 //Cell.countCell++;
                 Items.Add(i);
-                i.BackColor = Color.Green;
-
-                i.Location = new Point((Terra[numArr].x + rnd.Next(0, 2)) * Constants.pixPlace, (Terra[numArr].y + rnd.Next(0, 2)) * Constants.pixPlace); //in center 5x5
+                i.BackColor = Color.OrangeRed;
+                
+                i.Location = new Point((Terra[numArr].x + rnd.Next(0, 3)) * Constants.pixPlace, (Terra[numArr].y + rnd.Next(0, 3)) * Constants.pixPlace); //in center 5x5
                 i.Size = new Size(Constants.pixPlace * 3, Constants.pixPlace * 3);
 
                 this.Controls.Add(i);
@@ -503,6 +580,15 @@ namespace unium_project
             label3.Text = empt.ToString();
         }
 
-        
+        private void button5_Click(object sender, EventArgs e)
+        {
+            PictureBox p = new PictureBox();
+            p.Location = new Point(10, 10);
+            p.Size = new Size(50 * Constants.pixPlace, 50 * Constants.pixPlace);
+            p.BackColor = Color.BlueViolet;
+            
+            this.Controls.Add(p);
+            p.BringToFront();
+        }
     }
 }

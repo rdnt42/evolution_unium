@@ -48,7 +48,7 @@ namespace unium_project
                     element = 'P';
                     break;
                 case 6:
-                    element = 'E';
+                    element = 'C';
                     break;
                 case 7:
                     element = 'E';
@@ -62,9 +62,7 @@ namespace unium_project
                 case 10:
                     element = 'E';
                     break;
-                case 11:
-                    element = 'E';
-                    break;
+              
             }
             aging = 1;
         }
