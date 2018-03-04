@@ -9,6 +9,11 @@ namespace unium_project
 {
     class Item : PictureBox
     {
+       public char status;
 
+        public Item ()
+        {
+            status = 'F';
+        }
     }
 }

@@ -57,7 +57,7 @@ namespace unium_project
             while (Place.countPlace < Constants.countObj)
             {
                 Place place = new Place();
-                switch (place.element)
+                switch (place.status)
                 {
                     case 'H':
                         place.BackColor = Color.Brown;
@@ -120,40 +120,11 @@ namespace unium_project
                         path.AddEllipse(0, 0, Constants.pixPlace * 3, Constants.pixPlace * 3);
                         Region rgn = new Region(path);
                         c.Region = rgn;
-                        switch (c.group)
-                        {
-                            case 1:
-                                c.BackColor = Color.WhiteSmoke;
-                                break;
-                            case 2:
-                                c.BackColor = Color.Yellow;
-                                break;
-                            case 3:
-                                c.BackColor = Color.GreenYellow;
-                                break;
-
-                            case 4:
-                                c.BackColor = Color.LawnGreen;
-                                break;
-
-                            case 5:
-                                c.BackColor = Color.DarkGreen;
-                                break;
-
-                            case 6:
-                                c.BackColor = Color.Indigo; ;
-                                break;
-
-                            default:
-                                c.BackColor = Color.HotPink;
-                                break;
-                        }
+                        
                         
                         this.Controls.Add(c);
                         c.BringToFront();
 
-                        progressBarCells.Value++;
-                        labelCell.Text = "count cells " + progressBarCells.Value.ToString();
 
                         DataRow r = dt.NewRow();
                         r["Id"] = c.idCell;
@@ -180,9 +151,6 @@ namespace unium_project
                         this.Controls.Add(i);
                         i.BringToFront();
 
-                        progressBarFood.Value++;
-                        labelFood.Text = "count food " + progressBarFood.Value.ToString();
-
                     }
 
                     hydrohen = 0;
@@ -192,7 +160,7 @@ namespace unium_project
 
                 }
 
-                switch (t.element)
+                switch (t.status)
                 {
                     case 'H':
                         hydrohen++;
@@ -219,7 +187,7 @@ namespace unium_project
                         break;
                 }
 
-                t.element = 'E';
+                t.status = 'E';
                 t.BackColor = Color.LightBlue;
             }
 
@@ -326,7 +294,7 @@ namespace unium_project
             for (int i = 0; i < rnd.Next(1, 6); i++)
             {
                 int rndElement = rnd.Next(0, 2500);
-                if (Terra[rndElement].element == 'E')
+                if (Terra[rndElement].status == 'E')
                 {
                     CreateElement(rndElement);
                     try
@@ -344,10 +312,35 @@ namespace unium_project
 
             foreach (var c in Cells)
             {
-
                 c.Search(Items, Constants.pixPlace);
-                   // c.Moving(x*10, y*10);
+                c.Update();
             }
+
+            Elements.RemoveAll(EmptyElement);
+            Items.RemoveAll(EmptyFood);
+
+
+
+            foreach (var c in Cells)
+            {
+                
+                
+                dt.AsEnumerable().Where(p => Convert.ToInt32(p["Id"]) == c.idCell).ToList().ForEach( //обновление таблицы
+                    k =>
+                    {
+                        k.BeginEdit();
+                        k["HP"] = c.maxHp;
+                        k["Color"] = c.BackColor;
+                        k.EndEdit();
+                    });
+
+            }
+
+            progressBarFood.Value= Items.Count;
+            labelFood.Text = "count food " + Items.Count;
+
+            progressBarCells.Value = Cells.Count;
+            labelCell.Text = "count cells " + Cells.Count;
 
 
         }
@@ -359,27 +352,27 @@ namespace unium_project
             switch (setElement)
             {
                 case 0:
-                    Terra[setRndElement].element = 'H';
+                    Terra[setRndElement].status = 'H';
                     Terra[setRndElement].BackColor = Color.Brown;
                     break;
                 case 1:
-                    Terra[setRndElement].element = 'C';
+                    Terra[setRndElement].status = 'C';
                     Terra[setRndElement].BackColor = Color.Yellow;
                     break;
                 case 2:
-                    Terra[setRndElement].element = 'N';
+                    Terra[setRndElement].status = 'N';
                     Terra[setRndElement].BackColor = Color.Gray;
                     break;
                 case 3:
-                    Terra[setRndElement].element = 'O';
+                    Terra[setRndElement].status = 'O';
                     Terra[setRndElement].BackColor = Color.Blue;
                     break;
                 case 4:
-                    Terra[setRndElement].element = 'S';
+                    Terra[setRndElement].status = 'S';
                     Terra[setRndElement].BackColor = Color.Orange;
                     break;
                 case 5:
-                    Terra[setRndElement].element = 'P';
+                    Terra[setRndElement].status = 'P';
                     Terra[setRndElement].BackColor = Color.Black;
                     break;
             }
@@ -398,7 +391,7 @@ namespace unium_project
             int oxygen = 0;
             for (int i = 0; i < 25; i++)
             {
-                switch (Terra[numArr].element)
+                switch (Terra[numArr].status)
                 {
                     case 'H':
                         hydrohen++;
@@ -491,17 +484,17 @@ namespace unium_project
                 // dataGridView1.AutoResizeRows();
                 // dataGridView1.AutoResizeColumns();
 
-                dataGridView1.Columns[0].Width = 100;
-                dataGridView1.DataSource = dt;
+               // dataGridView1.Columns[0].Width = 100;
+              //  dataGridView1.DataSource = dt;
                 
 
 
 
                 for (int k = 0; k < 25; k++)
                 {
-                    if (Terra[numArr].element != 'E')
+                    if (Terra[numArr].status != 'E')
                     {
-                        Terra[numArr].element = 'E';
+                        Terra[numArr].status = 'E';
                         Terra[numArr].BackColor = Color.LightBlue;
                         //Elements.Remove(Terra[numArr]);
                     }
@@ -509,7 +502,7 @@ namespace unium_project
                 }
             }
 
-            else if (carbon >= 1 && hydrohen >= 2 && nytrogen >= 2)
+            else if (carbon >= 1 && hydrohen >= 1 && nytrogen >= 1)
             {
                 Item i = new Item();
                 //Cell.countCell++;
@@ -526,9 +519,9 @@ namespace unium_project
                 labelFood.Text = "cout food " + progressBarFood.Value.ToString();
                 for (int k = 0; k < 25; k++)
                 {
-                    if (Terra[numArr].element != 'E')
+                    if (Terra[numArr].status != 'E')
                     {
-                        Terra[numArr].element = 'E';
+                        Terra[numArr].status = 'E';
                         Terra[numArr].BackColor = Color.LightBlue;
                         //Elements.Remove(Terra[numArr]);
                     }
@@ -538,9 +531,21 @@ namespace unium_project
             }
         }
 
-        private static bool FoundEmpty(Place status) //предикат для работы с RemoveAll
+        private static bool EmptyElement(Place element) //предикат для работы с RemoveAll
         {
-            if (status.element == 'E')
+            if (element.status == 'E')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private static bool EmptyFood (Item food) //предикат для работы с RemoveAll
+        {
+            if (food.status == 'E')
             {
                 return true;
             }
@@ -560,19 +565,19 @@ namespace unium_project
                 e.aging++;
                 if (e.aging > 50)
                 {
-                    e.element = 'E';
+                    e.status = 'E';
                     e.BackColor = Color.LightBlue;
                     e.aging = 0;
                 }
             }
 
-            Elements.RemoveAll(FoundEmpty);
+            
  
 
             int empt = 0;
             foreach (var e in Elements)
             {
-                if (e.element == 'E')
+                if (e.status == 'E')
                 {
                     empt++;
                 }

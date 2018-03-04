@@ -12,7 +12,7 @@ namespace unium_project
     {
         public static int countPlace;
         public int idPlace;
-        public char element;
+        public char status;
         public int x;
         public int y;
         public int aging;
@@ -30,37 +30,37 @@ namespace unium_project
             switch (setElement)
             {
                 case 0:
-                    element = 'H';
+                    status = 'H';
                     break;
                 case 1:
-                    element = 'C';
+                    status = 'C';
                     break;
                 case 2:
-                    element = 'N';
+                    status = 'N';
                     break;
                 case 3:
-                    element = 'O';
+                    status = 'O';
                     break;
                 case 4:
-                    element = 'S';
+                    status = 'S';
                     break;
                 case 5:
-                    element = 'P';
+                    status = 'P';
                     break;
                 case 6:
-                    element = 'C';
+                    status = 'C';
                     break;
                 case 7:
-                    element = 'E';
+                    status = 'E';
                     break;
                 case 8:
-                    element = 'E';
+                    status = 'E';
                     break;
                 case 9:
-                    element = 'E';
+                    status = 'E';
                     break;
                 case 10:
-                    element = 'E';
+                    status = 'E';
                     break;
               
             }
