@@ -16,6 +16,9 @@ namespace unium_project
         public int group;
         public int hp;
         public int maxHp;
+        public int range;
+        static public int height = 50;
+        static public int width = 75;
         static Random rnd = new Random();
 
         public Cell()
@@ -30,7 +33,7 @@ namespace unium_project
         {
             idCell = countCell;
             group = carbon;
-
+            range = 100;
             switch (carbon)
             {
                 case 1:
@@ -79,54 +82,60 @@ namespace unium_project
         public void Search(List<Item> Items, int pixPlace)
         {
 
-            bool isFood = false;
-
+            double prewSum = 100 * 100 + 1;
+            int countFood = 0;
+            int catchFood = -1;
             foreach (Item i in Items)
             {
                 double h = Location.X - i.Location.X;
                 double w = Location.Y - i.Location.Y;
-                if (Math.Pow(h, 2) + Math.Pow(w, 2) <= Math.Pow(100, 2))
+                double sum = Math.Pow(h, 2) + Math.Pow(w, 2);
+                if (sum <= Math.Pow(range, 2) && sum < prewSum)
                 {
-                    int deltaX = i.Location.X - Location.X;
-                    if (deltaX < 10 && deltaX > -10)
-                        deltaX = 0;
-                    else if (deltaX != 0)
-                        deltaX = deltaX / Math.Abs(deltaX);
-
-
-                    int deltaY = i.Location.Y - Location.Y;
-                    if (deltaY < 10 && deltaY > -10)
-                        deltaY = 0;
-                    else if (deltaY != 0)
-                        deltaY = deltaY / Math.Abs(deltaY);
-
-
-                    if (deltaX == 0 && deltaY == 0)   //здесь клетка съедает еду
-                    {
-                        i.status = 'E';
-                        i.Dispose();
-
-                        int upHp = 10;
-                        maxHp += upHp;
-                        if (hp <= maxHp - upHp)
-                            hp += upHp;
-                        else
-                            hp = maxHp;
-                    }
-
-
-                    Location = new Point(Location.X + deltaX * 10, Location.Y + deltaY * 10);
-                    isFood = true;
-                    break;
+                    prewSum = sum;
+                    catchFood = countFood;
                 }
+                countFood++;
             }
 
-            if (!isFood)
+            if (catchFood != -1)
+            {
+                int deltaX = Items[catchFood].Location.X - Location.X;
+                if (deltaX < 10 && deltaX > -10)
+                    deltaX = 0;
+                else if (deltaX != 0)
+                    deltaX = deltaX / Math.Abs(deltaX);
+
+
+                int deltaY = Items[catchFood].Location.Y - Location.Y;
+                if (deltaY < 10 && deltaY > -10)
+                    deltaY = 0;
+                else if (deltaY != 0)
+                    deltaY = deltaY / Math.Abs(deltaY);
+
+
+                if (deltaX == 0 && deltaY == 0)   //здесь клетка съедает еду
+                {
+                    Items[catchFood].status = 'E';
+                    Items[catchFood].Dispose();
+
+                    int upHp = 10;
+                    maxHp += upHp;
+                    if (hp <= maxHp - upHp)
+                        hp += upHp;
+                    else
+                        hp = maxHp;
+                }
+
+                Location = new Point(Location.X + deltaX * 10, Location.Y + deltaY * 10);
+            }
+
+            else
             {
                 int x = rnd.Next(-1, 2);
                 int y = rnd.Next(-1, 2);
-                if (Location.Y < (pixPlace * 50 - 35 - y * 10) && Location.Y > -y * 10
-                    && Location.X < (pixPlace * 50 - 35 - x * 10) && Location.X > -x * 10)
+                if (Location.Y < (pixPlace * height - 35 - y * 10) && Location.Y > -y * 10
+                    && Location.X < (pixPlace * width - 35 - x * 10) && Location.X > -x * 10)
                 {
                     Location = new Point(Location.X + x * 10, Location.Y + y * 10);
                 }
@@ -135,11 +144,11 @@ namespace unium_project
         }
 
 
-        public new void Update ()
+        public new void Update()
         {
             if (maxHp >= 150 && maxHp < 200)
-            BackColor = Color.WhiteSmoke;
-            else if (maxHp >= 200 && maxHp < 250 )
+                BackColor = Color.WhiteSmoke;
+            else if (maxHp >= 200 && maxHp < 250)
                 BackColor = Color.Yellow;
             else if (maxHp >= 250 && maxHp < 300)
                 BackColor = Color.GreenYellow;
@@ -148,8 +157,8 @@ namespace unium_project
             else if (maxHp >= 350 && maxHp < 400)
                 BackColor = Color.DarkGreen;
             else if (maxHp >= 400 && maxHp < 800)
-                BackColor = Color.Indigo; 
-            else if (maxHp >= 800 )
+                BackColor = Color.Indigo;
+            else if (maxHp >= 800)
                 BackColor = Color.HotPink;
 
         }
