@@ -18,21 +18,21 @@ namespace unium_project
             InitializeComponent();
 
         }
-        public static class Constants
+
+        public class Constants
         {
             public const int pixPlace = 12;
             public const int createSizeCell = 25;
-            public const int countObj = 2500;
+            public const int countObj = 75*50;
 
         }
 
         List<Group> Units = new List<Group>();
         List<Place> Terra = new List<Place>();
         List<Place> Elements = new List<Place>();
-
-
         List<Cell> Cells = new List<Cell>();
         List<Item> Items = new List<Item>();
+        
         static Random rnd = new Random();
         DataTable dt = new DataTable();
 
@@ -42,12 +42,8 @@ namespace unium_project
             dt.Columns.Add("Group");
             dt.Columns.Add("HP");
             dt.Columns.Add("Color");
-
-
+            progressBarLoad.Maximum = Constants.countObj;
         }
-
-
-
 
         private void btn_place_Click(object sender, EventArgs e)
         {
@@ -86,9 +82,10 @@ namespace unium_project
                 Place.countPlace++;
                 this.Controls.Add(place);
                 Terra.Add(place);
-                progressBarLoad.Value++;
+                progressBarLoad.Value = Terra.Count;
 
             }
+            progressBarLoad.Visible = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -293,7 +290,7 @@ namespace unium_project
 
             for (int i = 0; i < rnd.Next(1, 6); i++)
             {
-                int rndElement = rnd.Next(0, 2500);
+                int rndElement = rnd.Next(0, Constants.countObj);
                 if (Terra[rndElement].status == 'E')
                 {
                     CreateElement(rndElement);
@@ -587,13 +584,57 @@ namespace unium_project
 
         private void button5_Click(object sender, EventArgs e)
         {
-            PictureBox p = new PictureBox();
-            p.Location = new Point(10, 10);
-            p.Size = new Size(50 * Constants.pixPlace, 50 * Constants.pixPlace);
-            p.BackColor = Color.BlueViolet;
             
-            this.Controls.Add(p);
-            p.BringToFront();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxErr_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBarFood_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelFood_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBarLoad_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBarCells_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelCell_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

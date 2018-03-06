@@ -17,12 +17,14 @@ namespace unium_project
         public int y;
         public int aging;
         static Random rnd = new Random();
+        static public int height = 50;
+        static public int width = 75; //по ширине, если одинак - то квадрат
         public Place()
         {
             idPlace = countPlace;
 
-            x = idPlace % 5 + (idPlace / 25) * 5 - (idPlace / 250) * 50;
-            y = (idPlace / 5) - (idPlace / 25) * 5 + (idPlace / 250) * 5;
+            x = idPlace % 5 + (idPlace / 25) * 5 - (idPlace / (width * 5)) * width;
+            y = (idPlace / 5) - (idPlace / 25) * 5 + (idPlace / (width * 5)) * 5;
             //x = idPlace % 50;
             //y = idPlace / 50;
 
