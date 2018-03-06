@@ -132,7 +132,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(826, 12);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(313, 576);
+            this.dataGridView1.Size = new System.Drawing.Size(297, 576);
             this.dataGridView1.TabIndex = 12;
             // 
             // button1
